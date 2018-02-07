@@ -96,7 +96,7 @@ Process {
             if (Test-Path "$($fileexists)"){
                 write-host "Filechecker: Found $($fileexists). Continuing execution."
             }else{
-                Write-Warning "Filechecker: Did not find $($fileexists). Skipping execution."  -ForegroundColor Red
+                Write-Warning "Filechecker: Did not find $($fileexists). Skipping execution."
                 exit 0
             }
         }
