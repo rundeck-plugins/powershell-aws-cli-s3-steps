@@ -45,7 +45,7 @@ Process {
             if (Test-Path "$($Env:RD_CONFIG_FILEEXISTS)"){
                 write-host "Filechecker: Found $($Env:RD_CONFIG_FILEEXISTS). Continuing execution."
             }else{
-                Write-Warning "Filechecker: Did not find $($Env:RD_CONFIG_FILEEXISTS). Skipping execution."  -ForegroundColor Red
+                Write-Warning "Filechecker: Did not find $($Env:RD_CONFIG_FILEEXISTS). Skipping execution."
                 exit 0
             }
         }
