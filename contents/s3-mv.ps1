@@ -5,14 +5,6 @@
   Move AWS bucket objects
 .DESCRIPTION
   Move AWS bucket objects
-.PARAMETER source
-    Source
-.PARAMETER destination
-    Destination
-.PARAMETER include
-    include
-.PARAMETER exclude
-    exclude
 .PARAMETER quiet
     quiet
 .PARAMETER recursive
@@ -43,10 +35,6 @@
 #>
 
 Param (
-[string]$source,
-[string]$destination,
-[string]$include,
-[string]$exclude,
 [string]$quiet,
 [string]$recursive,
 [string]$dryrun,
@@ -82,6 +70,11 @@ Process {
             $DebugPreference="Continue"
         }
 
+        $source=$Env:RD_CONFIG_SOURCE
+        $destination=$Env:RD_CONFIG_DESTINATION
+        $include=$Env:RD_CONFIG_INCLUDE
+        $exclude=$Env:RD_CONFIG_EXCLUDE
+
         write-verbose "Source: $($source)"
         write-verbose "Destination: $($destination)"
         write-verbose "endpoint_url: $($endpoint_url)"
@@ -90,6 +83,8 @@ Process {
         write-verbose "retries: $($retries)"
         write-verbose "checkexec: $($checkexec)"
         write-verbose "fileexists: $($fileexists)"
+        write-verbose "include: $($include)"
+        write-verbose "exclude: $($exclude)"
 
         if($checkexec -eq "true"){
             if (Test-Path "$($fileexists)"){
@@ -121,12 +116,12 @@ Process {
             $cmd +=  " --endpoint-url $($endpoint_url) " 
         }
 
-        if (-Not $include.contains('config.') -And -Not ([string]::IsNullOrEmpty($include)) ) {
-            $cmd +=  " --include ""$($include)"" " 
+        if (-Not $exclude.contains('config.') -And -Not ([string]::IsNullOrEmpty($exclude)) ) {
+            $cmd +=  " --exclude ""$($exclude)"" "
         }
 
-        if (-Not $exclude.contains('config.') -And -Not ([string]::IsNullOrEmpty($exclude)) ) {
-            $cmd +=  " --exclude ""$($exclude)"" " 
+        if (-Not $include.contains('config.') -And -Not ([string]::IsNullOrEmpty($include)) ) {
+            $cmd +=  " --include ""$($include)"" " 
         }
 
         if (-Not $options.contains('config.') -And -Not ([string]::IsNullOrEmpty($options)) ) {
