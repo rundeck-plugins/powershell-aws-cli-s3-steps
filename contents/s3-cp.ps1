@@ -5,6 +5,14 @@
   Copy AWS bucket objects
 .DESCRIPTION
   Copy AWS bucket objects
+.PARAMETER source
+    Source
+.PARAMETER destination
+    Destination
+.PARAMETER include
+    include
+.PARAMETER exclude
+    exclude
 .PARAMETER quiet
     quiet
 .PARAMETER recursive
@@ -35,6 +43,10 @@
 #>
 
 Param (
+[string]$source,
+[string]$destination,
+[string]$include,
+[string]$exclude,
 [string]$quiet,
 [string]$recursive,
 [string]$dryrun,
@@ -71,10 +83,6 @@ Process {
             $DebugPreference="Continue"
         }
 
-        $source=$Env:RD_CONFIG_SOURCE
-        $destination=$Env:RD_CONFIG_DESTINATION
-        $include=$Env:RD_CONFIG_INCLUDE
-        $exclude=$Env:RD_CONFIG_EXCLUDE
 
         write-verbose "Source: $($source)"
         write-verbose "Destination: $($destination)"
@@ -84,7 +92,6 @@ Process {
         write-verbose "retries: $($retries)"
         write-verbose "checkexec: $($checkexec)"
         write-verbose "fileexists: $($fileexists)"
-        write-verbose "options: $($options)"
         write-verbose "include: $($include)"
         write-verbose "exclude: $($exclude)"
 
@@ -115,20 +122,20 @@ Process {
             $cmd += " --recursive "
         }
 
-        if (-Not $endpoint_url.contains('config.') -And -Not ([string]::IsNullOrEmpty($endpoint_url)) ) {
+        if (-Not ([string]::IsNullOrEmpty($endpoint_url)) -And  -Not $endpoint_url.contains('config.') ) {
             $cmd +=  " --endpoint-url $($endpoint_url) " 
         }
 
-        if (-Not $exclude.contains('config.') -And -Not ([string]::IsNullOrEmpty($exclude)) ) {
+        if (-Not ([string]::IsNullOrEmpty($exclude)) -And -Not $exclude.contains('config.') ) {
             $cmd +=  " --exclude $($exclude) "
         }
 
-        if (-Not $include.contains('config.') -And -Not ([string]::IsNullOrEmpty($include)) ) {
+        if (-Not ([string]::IsNullOrEmpty($include)) -And  -Not $include.contains('config.')  ) {
             $cmd +=  " --include $($include) " 
         }
 
-        if (-Not $options.contains('config.') -And -Not ([string]::IsNullOrEmpty($options)) ) {
-            $cmd +=  " $($options) " 
+        if (-Not ([string]::IsNullOrEmpty($options)) -And  -Not $options.contains('config.')  ) {
+            $cmd +=  " $($options) "
         }
 
         $completed = $false
@@ -145,17 +152,17 @@ Process {
                 $completed = $true
             }Catch{
                 if ($retrycount -ge $retries) {
-                    Write-Host ("Command [{0}] failed the maximum number of {1} times." -f $cmd, $retrycount)
+                    Write-Host ("Command [{0}] failed the maximum number of {1} times.`n" -f $cmd, $retrycount)
                     throw
                 } else {
-                    Write-Host ("Command [{0}] failed. Retrying in {1} seconds." -f $cmd, $secondsDelay)
+                    Write-Host ("Command [{0}] failed. Retrying in {1} seconds.`n" -f $cmd, $secondsDelay)
                     Start-Sleep $secondsDelay
                     $retrycount++
                 }
             }
         }
 
-        write-host ""
+        write-host "`n"
         write-host "Done"
 
 

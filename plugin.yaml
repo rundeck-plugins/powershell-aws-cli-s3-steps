@@ -1,8 +1,15 @@
 name: powershell-aws-cli-s3-steps
-version: 1.0.0
-rundeckPluginVersion: 1.2
-author: Rundeck
-date: Tue Jan 7 2018
+rundeckPluginVersion: 2.0
+author: "@author@"
+date: "@date@"
+version: "@version@"
+url: "@url@"
+description: "Powershell Remote AWS S3 plugin"
+rundeckCompatibilityVersion: "3.x"
+targetHostCompatibility: "all"
+license: "Apache 2.0"
+tags:
+    - script
 providers:
   - name: aws-cli-ps-s3-cp-step
     service: RemoteScriptNodeStep
@@ -11,7 +18,7 @@ providers:
     plugin-type: script
     script-interpreter: powershell -NonInteractive -Noprofile -ExecutionPolicy Bypass -Command
     script-file: s3-cp.ps1
-    script-args: -quiet ${config.quiet} -recursive ${config.recursive} -dryrun ${config.dryrun} -endpoint_url ${config.endpoint_url} -access_key ${config.access_key} -secret_access_key ${config.secret_access_key} -default_region ${config.default_region} -options "${config.options}" -retries ${config.retries} -checkexec ${config.checkexec} -fileexists "${config.fileexists}"
+    script-args: -source '${config.source}' -destination '${config.destination}' -include ${config.include} -exclude ${config.exclude} -quiet ${config.quiet} -recursive ${config.recursive} -dryrun ${config.dryrun} -endpoint_url ${config.endpoint_url} -access_key ${config.access_key} -secret_access_key ${config.secret_access_key} -default_region ${config.default_region} -options '${config.options}' -retries ${config.retries} -checkexec ${config.checkexec} -fileexists "${config.fileexists}"
     config:
       - type: String
         name: source
@@ -103,7 +110,7 @@ providers:
     plugin-type: script
     script-interpreter: powershell -NonInteractive -Noprofile -ExecutionPolicy Bypass -Command
     script-file: s3-mv.ps1
-    script-args:  -quiet ${config.quiet} -recursive ${config.recursive} -dryrun ${config.dryrun} -endpoint_url ${config.endpoint_url} -access_key ${config.access_key} -secret_access_key ${config.secret_access_key} -default_region ${config.default_region} -options "${config.options}" -retries ${config.retries} -checkexec ${config.checkexec} -fileexists "${config.fileexists}"
+    script-args: -source '${config.source}' -destination '${config.destination}' -include ${config.include} -exclude ${config.exclude} -quiet ${config.quiet} -recursive ${config.recursive} -dryrun ${config.dryrun} -endpoint_url ${config.endpoint_url} -access_key ${config.access_key} -secret_access_key ${config.secret_access_key} -default_region ${config.default_region} -options '${config.options}' -retries ${config.retries} -checkexec ${config.checkexec} -fileexists "${config.fileexists}"
     config:
       - type: String
         name: source
@@ -195,7 +202,7 @@ providers:
     plugin-type: script
     script-interpreter: powershell -NonInteractive -Noprofile -ExecutionPolicy Bypass -Command
     script-file: s3-sync.ps1
-    script-args: -quiet ${config.quiet} -recursive ${config.recursive} -dryrun ${config.dryrun} -endpoint_url ${config.endpoint_url} -access_key ${config.access_key} -secret_access_key ${config.secret_access_key} -default_region ${config.default_region} -options "${config.options}" -retries ${config.retries} -checkexec ${config.checkexec} -fileexists "${config.fileexists}"
+    script-args: -source '${config.source}' -destination '${config.destination}' -include ${config.include} -exclude ${config.exclude} -quiet ${config.quiet} -recursive ${config.recursive} -dryrun ${config.dryrun} -endpoint_url ${config.endpoint_url} -access_key ${config.access_key} -secret_access_key ${config.secret_access_key} -default_region ${config.default_region} -options '${config.options}' -retries ${config.retries} -checkexec ${config.checkexec} -fileexists "${config.fileexists}"
     config:
       - type: String
         name: source

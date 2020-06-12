@@ -1,9 +1,10 @@
 # Powershell Aws-Cli-S3 steps
 Plugin to interact with AWS S3. This plugin is a Powershell wrapper around AWS S3 CLI to expose subcommands as node steps.
+Download the plugin from release tab
 
 ## Build
 
-Run `gradle build` to build the zip file
+Run `./gradlew build` to build the zip file
 
 ## Install
 
